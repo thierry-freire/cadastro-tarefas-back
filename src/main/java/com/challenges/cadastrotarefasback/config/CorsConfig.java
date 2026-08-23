@@ -1,4 +1,4 @@
-package com.challenges.desafiopetrobrasbackend.config;
+package com.challenges.cadastrotarefasback.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

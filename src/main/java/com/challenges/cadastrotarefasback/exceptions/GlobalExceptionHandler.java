@@ -1,6 +1,6 @@
-package com.challenges.desafiopetrobrasbackend.exceptions;
+package com.challenges.cadastrotarefasback.exceptions;
 
-import com.challenges.desafiopetrobrasbackend.dtos.ErrorDTO;
+import com.challenges.cadastrotarefasback.dtos.ErrorDTO;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;

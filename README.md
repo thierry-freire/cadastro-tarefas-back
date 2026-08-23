@@ -1,4 +1,12 @@
-# DESAFIO-PETROBRAS-BACK-END
+# CADASTRO_TAREFAS_BACK
+
+### Technologies
+* Java 21
+* SpringBoot 4.1.0
+* MySQL 9.7
+* Docker
+* JUnit
+* Mockito
 
 ### Reference Documentation
 
@@ -46,7 +54,7 @@ $ ./gradlew bootBuildImage
 Then, you can run the app like any other container:
 
 ```
-$ docker run --rm desafio-petrobras-backend:0.0.1-SNAPSHOT
+$ docker run --rm cadastro-tarefas-back:0.0.1-SNAPSHOT
 ```
 
 ### Executable with Native Build Tools
@@ -65,7 +73,7 @@ $ ./gradlew nativeCompile
 Then, you can run the app as follows:
 
 ```
-$ build/native/nativeCompile/desafio-petrobras-backend
+$ build/native/nativeCompile/cadastro-tarefas-back
 ```
 
 You can also run your existing tests suite in a native image.

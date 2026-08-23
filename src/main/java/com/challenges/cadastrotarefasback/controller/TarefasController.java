@@ -1,8 +1,8 @@
-package com.challenges.desafiopetrobrasbackend.controller;
+package com.challenges.cadastrotarefasback.controller;
 
-import com.challenges.desafiopetrobrasbackend.dtos.ErrorDTO;
-import com.challenges.desafiopetrobrasbackend.dtos.EventosDTO;
-import com.challenges.desafiopetrobrasbackend.services.EventosService;
+import com.challenges.cadastrotarefasback.dtos.ErrorDTO;
+import com.challenges.cadastrotarefasback.dtos.TarefasDTO;
+import com.challenges.cadastrotarefasback.services.TarefasService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-public class EventosController {
-    private final EventosService eventosService;
+public class TarefasController {
+    private final TarefasService tarefasService;
 
-    public EventosController(EventosService eventosService) {
-        this.eventosService = eventosService;
+    public TarefasController(TarefasService tarefasService) {
+        this.tarefasService = tarefasService;
     }
 
     @Operation(summary = "Listar os eventos de forma paginada")
@@ -32,8 +32,8 @@ public class EventosController {
             @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
     })
-    public ResponseEntity<Page<EventosDTO>> list (@Valid @ParameterObject Pageable pageable){
-        return ResponseEntity.ok(eventosService.list(pageable));
+    public ResponseEntity<Page<TarefasDTO>> list (@Valid @ParameterObject Pageable pageable){
+        return ResponseEntity.ok(tarefasService.list(pageable));
     }
 
     @Operation(summary = "Pesquisar um evento pelo seu id")
@@ -43,8 +43,8 @@ public class EventosController {
             @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
     })
-    public ResponseEntity<EventosDTO> getOne (@Valid @PathVariable Long id) {
-        return ResponseEntity.ok(eventosService.getOne(id));
+    public ResponseEntity<TarefasDTO> getOne (@Valid @PathVariable Long id) {
+        return ResponseEntity.ok(tarefasService.getOne(id));
     }
 
     @Operation(summary = "Atualizar um evento")
@@ -54,8 +54,8 @@ public class EventosController {
             @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
     })
-    public ResponseEntity<EventosDTO> update (@Valid @PathVariable Long id, @Valid @RequestBody EventosDTO updateInfo) {
-        return ResponseEntity.ok(eventosService.update(id, updateInfo));
+    public ResponseEntity<TarefasDTO> update (@Valid @PathVariable Long id, @Valid @RequestBody TarefasDTO updateInfo) {
+        return ResponseEntity.ok(tarefasService.update(id, updateInfo));
     }
 
     @Operation(summary = "Cadastrar um novo evento")
@@ -65,8 +65,8 @@ public class EventosController {
             @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
     })
-    public ResponseEntity<EventosDTO> save (@Valid @RequestBody EventosDTO evento) {
-        eventosService.save(evento);
+    public ResponseEntity<TarefasDTO> save (@Valid @RequestBody TarefasDTO evento) {
+        tarefasService.save(evento);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -77,8 +77,8 @@ public class EventosController {
             @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
     })
-    public ResponseEntity<EventosDTO> delete (@Valid @PathVariable Long id) {
-        eventosService.delete(id);
+    public ResponseEntity<TarefasDTO> delete (@Valid @PathVariable Long id) {
+        tarefasService.delete(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

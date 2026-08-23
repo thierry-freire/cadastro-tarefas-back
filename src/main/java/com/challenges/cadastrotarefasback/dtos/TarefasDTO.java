@@ -1,6 +1,6 @@
-package com.challenges.desafiopetrobrasbackend.dtos;
+package com.challenges.cadastrotarefasback.dtos;
 
-import com.challenges.desafiopetrobrasbackend.model.Eventos;
+import com.challenges.cadastrotarefasback.model.Tarefas;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +16,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventosDTO {
+public class TarefasDTO {
     private Long id;
 
     @NotBlank(message = "Título é obrigatório")
@@ -27,19 +27,26 @@ public class EventosDTO {
     @Size(max = 1000)
     private String descricao;
 
+    @NotBlank
+    @Size(max = 1)
+    private String status;
+
     @NotNull(message = "Data é obrigatório")
+    private Date dataCriacao;
+
     @Future(message = "A data deve ser futura")
-    private Date data;
+    private Date dataConclusao;
 
     @NotBlank(message = "Local é obrigatório")
-    @Size(max = 200)
-    private String local;
+    @Size(max = 100)
+    private String responsavel;
 
-    public EventosDTO (Eventos evento) {
-        this.id = evento.getId();
-        this.titulo = evento.getTitulo();
-        this.descricao = evento.getDescricao();
-        this.data = evento.getData();
-        this.local = evento.getLocal();
+    public TarefasDTO(Tarefas tarefa) {
+        this.id = tarefa.getId();
+        this.titulo = tarefa.getTitulo();
+        this.descricao = tarefa.getDescricao();
+        this.dataCriacao = tarefa.getDataCriacao();
+        this.dataConclusao = tarefa.getDataConclusao();
+        this.responsavel = tarefa.getResponsavel();
     }
 }

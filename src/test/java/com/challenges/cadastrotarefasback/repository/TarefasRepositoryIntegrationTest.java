@@ -1,6 +1,7 @@
-package com.challenges.desafiopetrobrasbackend.repository;
+package com.challenges.cadastrotarefasback.repository;
 
-import com.challenges.desafiopetrobrasbackend.model.Eventos;
+import com.challenges.cadastrotarefasback.model.Tarefas;
+import com.challenges.cadastrotarefasback.repository.TarefasRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,13 +24,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(properties = "spring.jpa.hibernate.ddl-auto=update")
 @Testcontainers
 @DisabledInAotMode
-class EventosRepositoryIntegrationTest {
+class TarefasRepositoryIntegrationTest {
 
     @Container
     static final MySQLContainer<?> MYSQL = new MySQLContainer<>("mysql:8.4");
 
     @Autowired
-    private EventosRepository eventosRepository;
+    private TarefasRepository tarefasRepository;
 
     @DynamicPropertySource
     static void configureDataSource(DynamicPropertyRegistry registry) {
@@ -40,20 +41,20 @@ class EventosRepositoryIntegrationTest {
 
     @Test
     @Transactional
-    void findAllByDeleted_deveRetornarApenasEventosNaoExcluidos() {
-        eventosRepository.save(evento("Evento ativo", "N"));
-        eventosRepository.save(evento("Evento excluido", "S"));
+    void findAllByDeleted_deveRetornarApenasEventosPendentes() {
+        tarefasRepository.save(evento("Evento ativo", "Maria"));
+        tarefasRepository.save(evento("Evento excluido", "Maria"));
 
-        Page<Eventos> eventosAtivos = eventosRepository.findAllByDeleted("N", PageRequest.of(0, 10));
+        Page<Tarefas> eventosAtivos = tarefasRepository.findAllByStatus("P", PageRequest.of(0, 10));
 
         assertThat(eventosAtivos).hasSize(1);
-        assertThat(eventosAtivos.getContent().getFirst().getTitulo()).isEqualTo("Evento ativo");
-        assertThat(eventosAtivos.getContent().getFirst().getDeleted()).isEqualTo("N");
+        assertThat(eventosAtivos.getContent().getFirst().getTitulo()).isEqualTo("Evento pendente");
+        assertThat(eventosAtivos.getContent().getFirst().getStatus()).isEqualTo("P");
     }
 
-    private Eventos evento(String titulo, String deleted) {
+    private Tarefas evento(String titulo, String responsavel) {
         Date agora = new Date();
-        return new Eventos(null, titulo, "Descricao", Date.from(Instant.now().plus(1, ChronoUnit.DAYS)),
-                "Rio de Janeiro", agora, agora, deleted);
+        return new Tarefas(null, titulo, "Descricao","P",
+                agora, null, responsavel);
     }
 }

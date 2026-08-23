@@ -1,13 +1,13 @@
-package com.challenges.desafiopetrobrasbackend;
+package com.challenges.cadastrotarefasback;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DesafioPetrobrasBackendApplication {
+public class CadastroTarefasBackApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DesafioPetrobrasBackendApplication.class, args);
+        SpringApplication.run(CadastroTarefasBackApplication.class, args);
     }
 
 }

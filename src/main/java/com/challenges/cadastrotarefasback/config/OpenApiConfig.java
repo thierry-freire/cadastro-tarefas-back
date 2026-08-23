@@ -1,4 +1,4 @@
-package com.challenges.desafiopetrobrasbackend.config;
+package com.challenges.cadastrotarefasback.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -11,9 +11,9 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI desafioApi() {
         return new OpenAPI().info(new Info()
-                .title("Desafio Mirante API")
+                .title("Cadastro Tarefas API")
                 .version("1.0.0")
-                .description("API para gerenciamento de eventos")
+                .description("API para gerenciamento de tarefas")
         );
     }
 }

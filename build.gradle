@@ -7,7 +7,7 @@ plugins {
 
 group = 'com.challenges'
 version = '0.0.1-SNAPSHOT'
-description = 'desafio-petrobras-backend'
+description = 'cadastro-tarefas-back'
 
 java {
     toolchain {
