@@ -28,8 +28,7 @@ public class TarefasDTO {
     @Size(max = 1000)
     private String descricao;
 
-    @NotBlank
-    @Size(max = 1)
+    @NotNull
     private StatusEnum status;
 
     @NotNull(message = "Data é obrigatório")
@@ -46,6 +45,7 @@ public class TarefasDTO {
         this.id = tarefa.getId();
         this.titulo = tarefa.getTitulo();
         this.descricao = tarefa.getDescricao();
+        this.status = tarefa.getStatus();
         this.dataCriacao = tarefa.getDataCriacao();
         this.dataConclusao = tarefa.getDataConclusao();
         this.responsavel = tarefa.getResponsavel();

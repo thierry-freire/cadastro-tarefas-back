@@ -30,6 +30,9 @@ class TarefasRepositoryIntegrationTest {
     @Autowired
     private TarefasRepository tarefasRepository;
 
+    @Autowired
+    private TarefasQueries tarefasQueries;
+
     @DynamicPropertySource
     static void configureDataSource(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", MYSQL::getJdbcUrl);
@@ -43,7 +46,7 @@ class TarefasRepositoryIntegrationTest {
         tarefasRepository.save(evento("Evento em andamento", "Maria", StatusEnum.EM_ANDAMENTO));
         tarefasRepository.save(evento("Evento pendente", "Joao", StatusEnum.PENDENTE));
 
-        Page<Tarefas> eventosAtivos = tarefasRepository.findAllByStatus(StatusEnum.PENDENTE, PageRequest.of(0, 10));
+        Page<Tarefas> eventosAtivos = tarefasQueries.list(PageRequest.of(0, 10), StatusEnum.PENDENTE, null);
 
         assertThat(eventosAtivos).hasSize(1);
         assertThat(eventosAtivos.getContent().getFirst().getTitulo()).isEqualTo("Evento pendente");
@@ -52,7 +55,7 @@ class TarefasRepositoryIntegrationTest {
 
     private Tarefas evento(String titulo, String responsavel, StatusEnum statusEnum) {
         Date agora = new Date();
-        return new Tarefas(null, titulo, "Descricao", StatusEnum.PENDENTE,
+        return new Tarefas(null, titulo, "Descricao", statusEnum,
                 agora, null, responsavel);
     }
 }

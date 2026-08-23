@@ -34,7 +34,7 @@ class TarefasServiceImplTest {
     @Test
     void update_deveAtualizarEventoQuandoIdExistir() {
         Tarefas eventoExistente = evento(1L, "Titulo antigo", "Descricao antiga", "Maria");
-        TarefasDTO atualizacao = new TarefasDTO(1L, "Titulo novo", "Descricao nova", StatusEnum.CONCLUIDA, Date.from(Instant.now()), dataFutura(), "Joao");
+        TarefasDTO atualizacao = new TarefasDTO(1L, "Titulo novo", "Descricao nova", StatusEnum.CONCLUIDA, eventoExistente.getDataCriacao(), dataFutura(), "Joao");
         when(tarefasRepository.findById(1L)).thenReturn(Optional.of(eventoExistente));
         when(tarefasRepository.save(eventoExistente)).thenReturn(eventoExistente);
 

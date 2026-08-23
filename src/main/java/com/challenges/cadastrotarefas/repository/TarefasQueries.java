@@ -30,7 +30,7 @@ public class TarefasQueries {
 
         if (status != null) {
             sql.append("AND status = :status ");
-            params.addValue("status", status);
+            params.addValue("status", status.name());
         }
 
         if (responsavel != null && !responsavel.isEmpty()) {

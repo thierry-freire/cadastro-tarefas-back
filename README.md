@@ -8,6 +8,22 @@
 * JUnit
 * Mockito
 
+### Run and build docker images
+To run the project locally use the command:
+```
+./gradlew bootRun
+```
+
+To build the docker environment with all images up, run on the main folder of the project:
+```
+docker compose up --build
+```
+
+To run the automated tests use the command:
+```
+./gradlew test
+```
+
 ### Reference Documentation
 
 For further reference, please consider the following sections:
