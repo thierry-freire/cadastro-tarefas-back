@@ -11,6 +11,10 @@ public enum StatusEnum {
         this.codigo = codigo;
     }
 
+    public String getCodigo() {
+        return codigo;
+    }
+
     public static StatusEnum fromCodigo(String codigo) {
         for (StatusEnum tipo : values()) {
             if (tipo.codigo.equals(codigo)) {

@@ -101,7 +101,7 @@ services:
         condition: service_started
 
     environment:
-      API_URL: http://localhost:8080/api/tasks
+      API_URL: http://localhost:8080
 
     ports:
       - "4200:80"

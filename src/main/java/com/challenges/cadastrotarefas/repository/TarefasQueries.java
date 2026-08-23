@@ -5,7 +5,6 @@ import com.challenges.cadastrotarefas.model.Tarefas;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,17 +23,19 @@ public class TarefasQueries {
 
     public Page<Tarefas> list(Pageable pageable, StatusEnum status, String responsavel) {
         StringBuilder sql = new StringBuilder("SELECT * FROM tarefa WHERE 1 = 1 ");
-        String countSql = "SELECT COUNT(*) FROM tarefa";
+        StringBuilder countSql = new StringBuilder("SELECT COUNT(*) FROM tarefa WHERE 1 = 1 ");
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         if (status != null) {
             sql.append("AND status = :status ");
-            params.addValue("status", status.name());
+            countSql.append("AND status = :status ");
+            params.addValue("status", status.getCodigo());
         }
 
         if (responsavel != null && !responsavel.isEmpty()) {
             sql.append("AND responsavel LIKE :responsavel ");
+            countSql.append("AND responsavel LIKE :responsavel ");
             params.addValue("responsavel", "%"+ responsavel + "%");
         }
 
@@ -42,8 +43,16 @@ public class TarefasQueries {
 
         params.addValue("limit", pageable.getPageSize()).addValue("offset", (int) pageable.getOffset());
 
-        List<Tarefas> tarefasList = jdbcTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Tarefas.class));
-        Long total = jdbcTemplate.queryForObject(countSql, new MapSqlParameterSource(), Long.class);
+        List<Tarefas> tarefasList = jdbcTemplate.query(sql.toString(), params, (resultSet, rowNum) -> new Tarefas(
+                resultSet.getLong("id"),
+                resultSet.getString("titulo"),
+                resultSet.getString("descricao"),
+                StatusEnum.fromCodigo(resultSet.getString("status")),
+                resultSet.getTimestamp("data_criacao"),
+                resultSet.getTimestamp("data_conclusao"),
+                resultSet.getString("responsavel")
+        ));
+        Long total = jdbcTemplate.queryForObject(countSql.toString(), params, Long.class);
 
         return new PageImpl<>(tarefasList, pageable, total != null ? total : 0);
     }

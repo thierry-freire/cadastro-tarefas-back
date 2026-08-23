@@ -2,13 +2,13 @@ package com.challenges.cadastrotarefas.model;
 
 import com.challenges.cadastrotarefas.dtos.TarefasDTO;
 import com.challenges.cadastrotarefas.enums.StatusEnum;
+import com.challenges.cadastrotarefas.enums.StatusEnumConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
 import java.util.Date;
 
 @Getter
@@ -30,7 +30,7 @@ public class Tarefas {
     private String descricao;
 
     @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = StatusEnumConverter.class)
     private StatusEnum status;
 
     @Column(name = "data_criacao", nullable = false)
@@ -50,7 +50,7 @@ public class Tarefas {
         this.descricao = tarefaDTO.getDescricao();
         this.status = tarefaDTO.getStatus();
         this.dataCriacao = tarefaDTO.getDataCriacao();
-        this.dataConclusao = Date.from(Instant.now());
+        this.dataConclusao = tarefaDTO.getDataConclusao();
         this.responsavel = tarefaDTO.getResponsavel();
     }
 }
