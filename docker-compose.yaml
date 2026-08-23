@@ -1,13 +1,13 @@
 version: "3.9"
 
-name: desafio-petrobras
+name: cadastro-tarefas
 
 services:
 
   db:
     image: mysql:9.7
 
-    container_name: desafio-db
+    container_name: cadastro-tarefas-db
 
     restart: unless-stopped
 
@@ -27,7 +27,7 @@ services:
 
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./database/desafio.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./database/database.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
 
     healthcheck:
       test:
@@ -41,16 +41,16 @@ services:
       start_period: 20s
 
     networks:
-      - desafio-network
+      - cadastro-tarefas-network
 
   backend:
 
     build:
       context: ./
 
-    image: desafio-backend:latest
+    image: cadastro-tarefas-back:latest
 
-    container_name: desafio-backend
+    container_name: cadastro-tarefas-backend
 
     restart: unless-stopped
 
@@ -83,16 +83,16 @@ services:
       retries: 10
 
     networks:
-      - desafio-network
+      - cadastro-tarefas-network
 
   frontend:
 
     build:
-      context: ./../desafio-petrobras-front-end
+      context: ./../cadastro-tarefas-front
 
-    image: desafio-frontend:latest
+    image: cadastro-tarefas-front:latest
 
-    container_name: desafio-frontend
+    container_name: cadastro-tarefas-frontend
 
     restart: unless-stopped
 
@@ -107,13 +107,11 @@ services:
       - "4200:80"
 
     networks:
-      - desafio-network
+      - cadastro-tarefas-network
 
 volumes:
-
   mysql-data:
 
 networks:
-
-  desafio-network:
+  cadastro-tarefas-network:
     driver: bridge
