@@ -1,6 +1,7 @@
-package com.challenges.cadastrotarefasback.dtos;
+package com.challenges.cadastrotarefas.dtos;
 
-import com.challenges.cadastrotarefasback.model.Tarefas;
+import com.challenges.cadastrotarefas.enums.StatusEnum;
+import com.challenges.cadastrotarefas.model.Tarefas;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,7 +30,7 @@ public class TarefasDTO {
 
     @NotBlank
     @Size(max = 1)
-    private String status;
+    private StatusEnum status;
 
     @NotNull(message = "Data é obrigatório")
     private Date dataCriacao;
@@ -37,7 +38,7 @@ public class TarefasDTO {
     @Future(message = "A data deve ser futura")
     private Date dataConclusao;
 
-    @NotBlank(message = "Local é obrigatório")
+    @NotBlank(message = "Responsável é obrigatório")
     @Size(max = 100)
     private String responsavel;
 

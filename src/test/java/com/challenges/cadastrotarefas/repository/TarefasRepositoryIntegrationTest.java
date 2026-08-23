@@ -1,7 +1,7 @@
-package com.challenges.cadastrotarefasback.repository;
+package com.challenges.cadastrotarefas.repository;
 
-import com.challenges.cadastrotarefasback.model.Tarefas;
-import com.challenges.cadastrotarefasback.repository.TarefasRepository;
+import com.challenges.cadastrotarefas.enums.StatusEnum;
+import com.challenges.cadastrotarefas.model.Tarefas;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,8 +15,6 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,19 +40,19 @@ class TarefasRepositoryIntegrationTest {
     @Test
     @Transactional
     void findAllByDeleted_deveRetornarApenasEventosPendentes() {
-        tarefasRepository.save(evento("Evento ativo", "Maria"));
-        tarefasRepository.save(evento("Evento excluido", "Maria"));
+        tarefasRepository.save(evento("Evento em andamento", "Maria", StatusEnum.EM_ANDAMENTO));
+        tarefasRepository.save(evento("Evento pendente", "Joao", StatusEnum.PENDENTE));
 
-        Page<Tarefas> eventosAtivos = tarefasRepository.findAllByStatus("P", PageRequest.of(0, 10));
+        Page<Tarefas> eventosAtivos = tarefasRepository.findAllByStatus(StatusEnum.PENDENTE, PageRequest.of(0, 10));
 
         assertThat(eventosAtivos).hasSize(1);
         assertThat(eventosAtivos.getContent().getFirst().getTitulo()).isEqualTo("Evento pendente");
-        assertThat(eventosAtivos.getContent().getFirst().getStatus()).isEqualTo("P");
+        assertThat(eventosAtivos.getContent().getFirst().getStatus()).isEqualTo(StatusEnum.PENDENTE);
     }
 
-    private Tarefas evento(String titulo, String responsavel) {
+    private Tarefas evento(String titulo, String responsavel, StatusEnum statusEnum) {
         Date agora = new Date();
-        return new Tarefas(null, titulo, "Descricao","P",
+        return new Tarefas(null, titulo, "Descricao", StatusEnum.PENDENTE,
                 agora, null, responsavel);
     }
 }

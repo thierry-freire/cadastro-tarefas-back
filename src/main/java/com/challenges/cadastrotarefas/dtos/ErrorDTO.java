@@ -1,4 +1,4 @@
-package com.challenges.cadastrotarefasback.dtos;
+package com.challenges.cadastrotarefas.dtos;
 
 import java.time.LocalDateTime;
 

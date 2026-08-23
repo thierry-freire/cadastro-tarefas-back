@@ -1,8 +1,9 @@
-package com.challenges.cadastrotarefasback.controller;
+package com.challenges.cadastrotarefas.controller;
 
-import com.challenges.cadastrotarefasback.dtos.ErrorDTO;
-import com.challenges.cadastrotarefasback.dtos.TarefasDTO;
-import com.challenges.cadastrotarefasback.services.TarefasService;
+import com.challenges.cadastrotarefas.dtos.ErrorDTO;
+import com.challenges.cadastrotarefas.dtos.TarefasDTO;
+import com.challenges.cadastrotarefas.enums.StatusEnum;
+import com.challenges.cadastrotarefas.services.TarefasService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -25,21 +26,21 @@ public class TarefasController {
         this.tarefasService = tarefasService;
     }
 
-    @Operation(summary = "Listar os eventos de forma paginada")
-    @GetMapping("/events")
+    @Operation(summary = "Listar as tarefas de forma paginada")
+    @GetMapping("/tasks")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Eventos encontrados"),
+            @ApiResponse(responseCode = "200", description = "Tarefas encontradas"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
     })
-    public ResponseEntity<Page<TarefasDTO>> list (@Valid @ParameterObject Pageable pageable){
-        return ResponseEntity.ok(tarefasService.list(pageable));
+    public ResponseEntity<Page<TarefasDTO>> list (@Valid @ParameterObject Pageable pageable, @RequestParam(required = false) StatusEnum status, @RequestParam(required = false) String responsavel){
+        return ResponseEntity.ok(tarefasService.list(pageable, status, responsavel));
     }
 
-    @Operation(summary = "Pesquisar um evento pelo seu id")
-    @GetMapping("/events/{id}")
+    @Operation(summary = "Pesquisar uma tarefa pelo seu id")
+    @GetMapping("/tasks/{id}")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Evento encontrado"),
+            @ApiResponse(responseCode = "200", description = "Tarefa encontrada"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
     })
@@ -47,10 +48,10 @@ public class TarefasController {
         return ResponseEntity.ok(tarefasService.getOne(id));
     }
 
-    @Operation(summary = "Atualizar um evento")
-    @PutMapping("/events/{id}")
+    @Operation(summary = "Atualizar uma Tarefa")
+    @PutMapping("/tasks/{id}")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Evento atualizado"),
+            @ApiResponse(responseCode = "200", description = "Tarefa atualizada"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
     })
@@ -58,22 +59,22 @@ public class TarefasController {
         return ResponseEntity.ok(tarefasService.update(id, updateInfo));
     }
 
-    @Operation(summary = "Cadastrar um novo evento")
-    @PostMapping("/events")
+    @Operation(summary = "Cadastrar uma nova Tarefa")
+    @PostMapping("/tasks")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Evento cadastrado"),
+            @ApiResponse(responseCode = "201", description = "Tarefa cadastrada"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
     })
-    public ResponseEntity<TarefasDTO> save (@Valid @RequestBody TarefasDTO evento) {
-        tarefasService.save(evento);
+    public ResponseEntity<TarefasDTO> save (@Valid @RequestBody TarefasDTO Tarefa) {
+        tarefasService.save(Tarefa);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Deletar um evento")
-    @DeleteMapping("/events/{id}")
+    @Operation(summary = "Deletar uma Tarefa")
+    @DeleteMapping("/tasks/{id}")
     @ApiResponses({
-            @ApiResponse(responseCode = "202", description = "Evento deletado"),
+            @ApiResponse(responseCode = "202", description = "Tarefa deletada"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
     })

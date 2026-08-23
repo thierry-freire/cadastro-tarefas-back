@@ -1,4 +1,4 @@
-package com.challenges.cadastrotarefasback.config;
+package com.challenges.cadastrotarefas.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

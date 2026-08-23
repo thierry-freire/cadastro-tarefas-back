@@ -1,27 +1,29 @@
-package com.challenges.cadastrotarefasback.services;
+package com.challenges.cadastrotarefas.services;
 
-import com.challenges.cadastrotarefasback.dtos.TarefasDTO;
-import com.challenges.cadastrotarefasback.exceptions.ResourceNotFoundException;
-import com.challenges.cadastrotarefasback.model.Tarefas;
-import com.challenges.cadastrotarefasback.repository.TarefasRepository;
+import com.challenges.cadastrotarefas.dtos.TarefasDTO;
+import com.challenges.cadastrotarefas.enums.StatusEnum;
+import com.challenges.cadastrotarefas.exceptions.ResourceNotFoundException;
+import com.challenges.cadastrotarefas.model.Tarefas;
+import com.challenges.cadastrotarefas.repository.TarefasQueries;
+import com.challenges.cadastrotarefas.repository.TarefasRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.util.Date;
-
 @Service
 public class TarefasServiceImpl implements TarefasService {
     private final TarefasRepository tarefasRepository;
+    private final TarefasQueries tarefasQueries;
 
-    public TarefasServiceImpl(TarefasRepository tarefasRepository) {
+    public TarefasServiceImpl(TarefasRepository tarefasRepository, TarefasQueries tarefasQueries) {
         this.tarefasRepository = tarefasRepository;
+        this.tarefasQueries = tarefasQueries;
     }
 
     @Override
-    public Page<TarefasDTO> list(Pageable pageable) {
-        return tarefasRepository.findAll(pageable).map(TarefasDTO::new);
+    public Page<TarefasDTO> list(Pageable pageable, StatusEnum status, String responsavel) {
+
+        return tarefasQueries.list(pageable, status, responsavel).map(TarefasDTO::new);
     }
 
     @Override

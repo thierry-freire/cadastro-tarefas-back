@@ -1,10 +1,10 @@
-package com.challenges.cadastrotarefasback.services;
+package com.challenges.cadastrotarefas.services;
 
-import com.challenges.cadastrotarefasback.dtos.TarefasDTO;
-import com.challenges.cadastrotarefasback.exceptions.ResourceNotFoundException;
-import com.challenges.cadastrotarefasback.model.Tarefas;
-import com.challenges.cadastrotarefasback.repository.TarefasRepository;
-import com.challenges.cadastrotarefasback.services.TarefasServiceImpl;
+import com.challenges.cadastrotarefas.dtos.TarefasDTO;
+import com.challenges.cadastrotarefas.enums.StatusEnum;
+import com.challenges.cadastrotarefas.exceptions.ResourceNotFoundException;
+import com.challenges.cadastrotarefas.model.Tarefas;
+import com.challenges.cadastrotarefas.repository.TarefasRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,7 +34,7 @@ class TarefasServiceImplTest {
     @Test
     void update_deveAtualizarEventoQuandoIdExistir() {
         Tarefas eventoExistente = evento(1L, "Titulo antigo", "Descricao antiga", "Maria");
-        TarefasDTO atualizacao = new TarefasDTO(1L, "Titulo novo", "Descricao nova", "C", Date.from(Instant.now()), dataFutura(), "Joao");
+        TarefasDTO atualizacao = new TarefasDTO(1L, "Titulo novo", "Descricao nova", StatusEnum.CONCLUIDA, Date.from(Instant.now()), dataFutura(), "Joao");
         when(tarefasRepository.findById(1L)).thenReturn(Optional.of(eventoExistente));
         when(tarefasRepository.save(eventoExistente)).thenReturn(eventoExistente);
 
@@ -43,7 +43,7 @@ class TarefasServiceImplTest {
         assertThat(resultado.getId()).isEqualTo(1L);
         assertThat(resultado.getTitulo()).isEqualTo("Titulo novo");
         assertThat(resultado.getDescricao()).isEqualTo("Descricao nova");
-        assertThat(resultado.getStatus()).isEqualTo("C");
+        assertThat(resultado.getStatus()).isEqualTo(StatusEnum.CONCLUIDA);
         assertThat(resultado.getDataCriacao()).isEqualTo(atualizacao.getDataCriacao());
         assertThat(resultado.getDataConclusao()).isEqualTo(atualizacao.getDataConclusao());
         assertThat(resultado.getResponsavel()).isEqualTo("Joao");
@@ -61,7 +61,7 @@ class TarefasServiceImplTest {
     }
 
     private Tarefas evento(Long id, String titulo, String descricao, String responsavel) {
-        return new Tarefas(id, titulo, descricao, "P", Date.from(Instant.now()), null, responsavel);
+        return new Tarefas(id, titulo, descricao, StatusEnum.PENDENTE, Date.from(Instant.now()), null, responsavel);
     }
 
     private Date dataFutura() {
